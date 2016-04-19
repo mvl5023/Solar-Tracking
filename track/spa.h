@@ -184,6 +184,7 @@ typedef struct
 } spa_data;
 
 //-------------- Utility functions for other applications (such as NREL's SAMPA) --------------
+
 double deg2rad(double degrees);
 double rad2deg(double radians);
 double limit_degrees(double degrees);

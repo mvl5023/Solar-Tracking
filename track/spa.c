@@ -520,6 +520,7 @@ const double PE_TERMS[Y_COUNT][TERM_PE_COUNT]={
 
 ///////////////////////////////////////////////
 
+
 double rad2deg(double radians)
 {
     return (180.0/PI)*radians;
@@ -598,6 +599,7 @@ double third_order_polynomial(double a, double b, double c, double d, double x)
 {
     return ((a*x + b)*x + c)*x + d;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 int validate_inputs(spa_data *spa)
