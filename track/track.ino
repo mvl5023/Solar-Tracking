@@ -1,8 +1,6 @@
 #include <Time.h> // included time libraries for Arduino
 #include <TimeLib.h>
-
 #include "Sun_position_algorithms.h" // Using the Grena ENEA Algorithm for Solar
-
 #include <stdio.h> // for standard I/O
 
 // declare global variables
@@ -14,7 +12,15 @@ char timestamp[32];
 
 void setup() {
   Serial.begin(9600);
-  setTime(6,0,0,19,4,2016);
+
+  // Syncs up the time with whatever input time
+  // Currently no good way to grab system time from PC except if you use a Linux system
+  setTime(6,     // hour
+          0,     // minute
+          0,     // second
+          19,    // day
+          4,     // month
+          2016); // year
 }
 
 void loop() {
@@ -27,8 +33,8 @@ void loop() {
   SunPos.Dt = 96.4 + 0.567*double(year()-2061); // Terrestial time - UT
   SunPos.Longitude = 77.86 * (2*PI/360.0); // State College Longitude and Latitude [radians]
   SunPos.Latitude = 40.7934 * (2*PI/360.0);
-  SunPos.Pressure = 1.0;
-  SunPos.Temperature = 20.0;
+  SunPos.Pressure = 1.0; // Pressure [atm]
+  SunPos.Temperature = 20.0; // Temperature [C]
 
 
   SunPos.Algorithm5();
