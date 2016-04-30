@@ -1,6 +1,7 @@
 #include <Time.h> // included time libraries for Arduino
 #include <TimeLib.h>
 #include "Sun_position_algorithms.h" // Using the Grena ENEA Algorithm for Solar
+#include "translate.h"
 #include <stdio.h> // for standard I/O
 
 // declare global variables
@@ -9,6 +10,9 @@ double zenith;
 double azimuth;
 double UT;
 char timestamp[32];
+double d_a; // panel's change in azimuth
+double d_z; // panel's change in zenith
+polar coord; // zenith and azimuth in a struct
 
 void setup() {
   Serial.begin(9600);
@@ -21,6 +25,9 @@ void setup() {
           19,    // day
           4,     // month
           2016); // year
+          
+  d_a = 20 * 180/PI; // 15 degrees (in radians)
+  d_z = 30 * 180/PI; // 30 degrees (in radians)
 }
 
 void loop() {
@@ -39,22 +46,26 @@ void loop() {
 
   SunPos.Algorithm5();
 
-  //zenith = spa.zenith;
-  //azimuth = spa.azimuth;
-
   // creates string for timestamp
   sprintf(timestamp, "%d/%d/%d %d:%d:%d\t\t\t", month(), day(), year(), hour(), minute(), second());
 
+  // Accounts for tilt in panel
+  coord.ze = SunPos.Zenith;
+  coord.az = SunPos.Azimuth;
+  
+  coord = translate(coord, d_a, d_z);
+  
   // prints out timestamp and zenith and azimuth angles in degrees
   Serial.print(timestamp);  
   Serial.print("Zenith:");
   Serial.print(SunPos.Zenith * (360/(2*PI)));
   Serial.print("\tAzimuth:");
   Serial.print(SunPos.Azimuth * (360/(2*PI)));
+  Serial.print("\tConverted Zenith:");
+  Serial.print(coord.ze * 180/PI);
+  Serial.print("\tConverted Azimuth:");
+  Serial.print(coord.az * 180/PI);
   Serial.print("\n");
-
-  
-
 
   delay(1000);
 }
