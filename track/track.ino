@@ -13,7 +13,6 @@ char timestamp[32];
 double d_a; // panel's change in azimuth
 double d_z; // panel's change in zenith
 polar coord; // zenith and azimuth in a struct
-int dublin = 420;
 
 void setup() {
   Serial.begin(9600);
